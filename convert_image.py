@@ -1,18 +1,23 @@
 from custom_modules.GUI import *
-from PIL import *
+from PIL import Image
 from pathlib import Path
 import os
 
 
 def convert_images(input_file_path : Path, output_file_path : Path, ext : str):
     if os.path.isfile(input_file_path):
-        print(os.path.basename(input_file_path))
-        print("File")
+        image = Image.open(input_file_path)
+        output_file_name = os.path.basename(input_file_path).split('.')[0] + f".{ext}"
+        print(output_file_path)
+        image.save(os.path.join(output_file_path, output_file_name))
     else:
+        for image in input_file_path.iterdir():
+            if os.path.isfile(image) and os.path. # try to find extension of the file before converting? check if within frozenset? do i need to do this?
+            
         print(os.path.basename(input_file_path))
         print("folder")
 
-    
+
 
     print(os.path.basename(output_file_path))
     print(ext)
