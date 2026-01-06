@@ -1,6 +1,6 @@
 from tkinter import Tk, Label, Button, filedialog, ttk, Radiobutton, StringVar
 import os
-from custom_modules.constants import image_exts, IMAGE_FILETYPES
+from custom_modules.constants import image_exts, IMAGE_FILETYPES, savable_exts
 
 options = frozenset({"single", "folder"})
 

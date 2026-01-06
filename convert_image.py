@@ -6,13 +6,18 @@ import os
 
 def convert_images(input_file_path : Path, output_file_path : Path, ext : str):
     if os.path.isfile(input_file_path):
+        suffix = Path(input_file_path).suffix.lower().lstrip('.')
+        if suffix not in savable_exts:
+            print(f"Error! Cannot convert file with extension: {suffix}")
+            return
         image = Image.open(input_file_path)
         output_file_name = os.path.basename(input_file_path).split('.')[0] + f".{ext}"
-        print(output_file_path)
         image.save(os.path.join(output_file_path, output_file_name))
     else:
         for image in input_file_path.iterdir():
-            if os.path.isfile(image) and os.path. # try to find extension of the file before converting? check if within frozenset? do i need to do this?
+            print(image)
+            # if os.path.isfile(image) and os.path. 
+            # try to find extension of the file before converting? check if within frozenset? do i need to do this?
             
         print(os.path.basename(input_file_path))
         print("folder")
