@@ -18,4 +18,5 @@ def get_savable_exts():
 
 def get_suffix(path : Path):
     suffix = Path(path).suffix.lower().lstrip('.')
+    return suffix
     

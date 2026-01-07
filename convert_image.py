@@ -1,12 +1,22 @@
 from custom_modules.GUI import *
+from custom_modules.constants import MAX_PIXEL_LIMIT
+from custom_modules.helpers import get_suffix
 from PIL import Image
 from pathlib import Path
 import os
 
+"""
+some image conversion types require pre processing before conversion can be done 
+eg jpeg and jpg for alpha
+to do so, do pre processing for the image type by parsing the suffix then
+deciding what to do before saving as new image extension
+To do...
+"""
+Image.MAX_IMAGE_PIXELS = MAX_PIXEL_LIMIT
 
 def convert_images(input_file_path : Path, output_file_path : Path, ext : str):
     if os.path.isfile(input_file_path):
-        suffix = Path(input_file_path).suffix.lower().lstrip('.')
+        suffix = get_suffix(input_file_path)
         if suffix not in savable_exts:
             print(f"Error! Cannot convert file with extension: {suffix}")
             return
@@ -14,18 +24,22 @@ def convert_images(input_file_path : Path, output_file_path : Path, ext : str):
         output_file_name = os.path.basename(input_file_path).split('.')[0] + f".{ext}"
         image.save(os.path.join(output_file_path, output_file_name))
     else:
-        for image in input_file_path.iterdir():
-            print(image)
-            # if os.path.isfile(image) and os.path. 
-            # try to find extension of the file before converting? check if within frozenset? do i need to do this?
+        iter_dir = Path(input_file_path)
+        for image_path in iter_dir.iterdir():
+            try:
+                suffix = get_suffix(image_path)
+                if suffix in savable_exts:
+                    image = Image.open(image_path)
+                    output_file_name = os.path.basename(image_path).split('.')[0] + f".{ext}"
+                    image.save(os.path.join(output_file_path, output_file_name))
+                else:
+                    print(f"Skipped {image_path}")
+                    continue
+            except Exception as e:
+                print(f"ERROR! The following image has an error: {image_path}")
+                print(f"Exception is {e}")
+                
             
-        print(os.path.basename(input_file_path))
-        print("folder")
-
-
-
-    print(os.path.basename(output_file_path))
-    print(ext)
 
 def main():
     input_path = Path(__file__)
