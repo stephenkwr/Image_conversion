@@ -1,0 +1,3 @@
+# Core dependency. The curated target list adapts at runtime to whatever the
+# installed Pillow can actually write (e.g. AVIF needs Pillow >= 11.3).
+Pillow>=10.0
